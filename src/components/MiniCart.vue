@@ -13,10 +13,10 @@
               </div>
               <div class="modal-body">
                   <ul>
-                    <li v-for="item in this.$store.state.cart" class="media">
+                    <li v-for="item in this.$store.state.cart" class="media mb-4">
                       <img :src="item.productImage" width="80px" class="align-self-center mr-3" alt="">
                       <div class="media-body">
-                        <h5 class="mt-0">{{item.productName}}
+                        <h5 class="mt-1">{{item.productName}}
 
                           <span class='float-right close-btn' @click="$store.commit('removeFromCart',item)"><i class="fa fa-trash mb-1 text-danger"></i></span>
                         </h5>

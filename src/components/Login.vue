@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login elementor elementor-6">
         <!-- Modal -->
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -8,7 +8,7 @@
                 <div class="modal-body login-container">
 
 
-                        <ul class="nav nav-fill nav-pills border mb-3" id="pills-tab" role="tablist">
+                        <ul class="nav login-tabs mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
                             </li>
@@ -20,8 +20,8 @@
                         <div class="tab-content mt-4" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
 
-                            <h2 class="text-center mb-4">Welcome Back!</h2>
-                            <div class="form-group">
+                           
+                            <div class="form-group mt-3">
                                 <label>Mobile Number</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -35,14 +35,13 @@
                                 <input type="password" @keyup.enter="login" v-model="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                             </div>
 
-                             <div class="form-group">
+                             <div class="form-group">                                
                                 <button class="btn btn-block custom-btn btn-primary" @click="login">Login</button>
                             </div>
 
                         </div>
                         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
-                            <form id="register-form">
-                                <h2 class="text-center mb-4">Create New Account</h2>
+                            <form id="register-form">                                
                                 
                                 <div class="form-group">
                                     <label for="name">Name</label>
@@ -67,13 +66,13 @@
                                         </div>
                                         <input type="tel" required v-model="mobile" @keyup="updateSignInButtonUI" class="form-control" id="phone-number" placeholder="Enter mobile number">
                                         <div class="input-group-append">
-                                            <button disabled id="sign-up-button" class="btn btn-flat btn-primary text-uppercased" >Send SMS</button>
+                                            <button disabled id="sign-up-button" class="btn btn-flat btn-success text-uppercased" >Send SMS</button>
                                         </div>
                                     </div>
                                     <div id="recaptcha-container"></div>
                                 </div>
 
-                                
+                            </form>   
 
                                 <div class="otp-container">
 
@@ -87,7 +86,7 @@
                                     </div>
                                 </div>
 
-                            </form>
+                            
 
                         </div>
                         </div>
@@ -148,7 +147,7 @@ export default {
   methods:{
 
     onSignInSubmit() {
-        console.log("submit");
+        // console.log("submit");
         if (this.validateRegisterForm()) {
             window.signingIn = true;
             this.updateSignInButtonUI();
@@ -160,14 +159,13 @@ export default {
                     // user in with confirmationResult.confirm(code).
                     window.confirmationResult = confirmationResult;
                     window.signingIn = false;
-                    console.log("sms sent..");
+                    // console.log("sms sent..");
                     this.updateSignInButtonUI();
                     this.updateVerificationCodeFormUI();
                     this.updateVerifyCodeButtonUI();
                 }).catch((error) => {
                     // Error; SMS not sent
-                    console.error('Error during signInWithPhoneNumber', error);
-                    window.alert('Error during signInWithPhoneNumber');
+                    console.error('Error during signInWithPhoneNumber', error);                    
                     window.signingIn = false;
                     this.updateSignInButtonUI();
             });
@@ -182,8 +180,7 @@ export default {
       var code = this.otp;
       confirmationResult.confirm(code).then((result) => {
         // User signed in successfully.
-        console.log("otp verified..");
-        console.log(result);
+        // console.log("otp verified..");
         var user = result.user;
         window.verifyingCode = false;
         window.confirmationResult = null;
@@ -191,9 +188,7 @@ export default {
         this.register(user); 
       }).catch((error) => {
         // User couldn't sign in (bad verification code?)
-        console.error('Error while checking the verification code', error);
-        window.alert('Error while checking the verification code:\n\n'
-            + error.code + '\n\n' + error.message);
+        console.error('Error while checking the verification code', error);        
         window.verifyingCode = false;
         this.updateSignInButtonUI();
         this.updateVerifyCodeButtonUI();
@@ -248,11 +243,9 @@ export default {
           if (this.mobile == "admin") {
               if (this.password == "admin") {
                 $('#login').modal('hide')                
-                console.log("admin login..");
+                // console.log("admin login..");
 
-                localStorage.setItem('username', "admin");
-                localStorage.setItem('is_admin', "1");
-                localStorage.setItem('logged_in', "1"); 
+                this.set_storage("admin", "1", "1");                
 
                 Toast.fire({
                     type: 'success',
@@ -275,45 +268,47 @@ export default {
                     var name = "";
                     querySnapshot.forEach((doc) => {
                         // doc.data() is never undefined for query doc snapshots
-                        console.log(doc.id, " => ", doc.data());
+                        // console.log(doc.id, " => ", doc.data());
                         name = doc.data().name;
                     });
 
                     
                     if (querySnapshot.size > 0) {  
-                        console.log(name);
-                        localStorage.setItem('username', name);
-                        localStorage.setItem('is_admin', "0");                      
-                        localStorage.setItem('logged_in', "1");                      
-                        $('#login').modal('hide');
-                        
-                        this.$router.replace('/products');
+                        // console.log(name);
+                        this.set_storage(name, "0", "1"); 
+                                             
+                        $('#login').modal('hide');                                                
 
                         Toast.fire({
                             type: 'success',
                             position: 'center',
                             title: 'LoggedIn successfully'
                         });
+
+                        this.$router.replace('/products');
                     } else {
                         // doc.data() will be undefined in this case
-                        localStorage.setItem('username', "");
-                        localStorage.setItem('is_admin', "0");                      
-                        localStorage.setItem('logged_in', "0");    
+                            
+                        this.set_storage("", "0", "0");                         
 
-                        console.log("No such document!");                        
-                        alert('Wrong username/password.');
+                        Toast.fire({
+                            type: 'error',
+                            position: 'center',
+                            title: 'Wrong username/password!'
+                        });
                     }                      
                 })
-                .catch(function(error) {
+                .catch((error) => {
                     // Handle Errors here.
+                    
+                    this.set_storage("", "0", "0"); 
+
                     Toast.fire({
                         type: 'error',
                         position: 'center',
-                        title: 'Wrong username/password!'
+                        title: 'Unable to login!'
                     });
-                    localStorage.setItem('username', "");
-                    localStorage.setItem('is_admin', "0");                      
-                    localStorage.setItem('logged_in', "0"); 
+                                        
                     console.log(error);
             });
           }            
@@ -326,9 +321,10 @@ export default {
             mobile: this.mobile,
             password: this.password,
 
-        }).then(function() {
-            console.log("Document successfully written!");
-            console.log("Registration completed!");
+        }).then(() => {
+            // console.log("Registration completed!");
+            
+            this.set_storage(this.name, "0", "1");               
 
             $('#login').modal('hide');
 
@@ -337,10 +333,14 @@ export default {
                 position: 'center',
                 title: 'Registration completed!'
             });
+
+            this.$router.replace('/products');
             
         })
-        .catch(function(error) {
+        .catch((error) => {
+            
             $('#login').modal('hide');
+
             Toast.fire({
                 type: 'error',
                 position: 'center',
@@ -349,6 +349,12 @@ export default {
             console.error("Error writing document: ", error);
         });
 
+      },
+
+      set_storage(name, admin_status, login_status) {        
+        localStorage.setItem('username', name);
+        localStorage.setItem('is_admin', admin_status);                      
+        localStorage.setItem('logged_in', login_status); 
       }
 
   }
@@ -358,15 +364,41 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
-    .login-container {
-        
+    .login-container {        
         padding: 40px;
         
     }
 
-    .nav-pills .nav-link {
-        font-size: 20px;
-        padding: 10px;
+    .login-container .btn.btn-primary {
+        background-color: #ff7043;
+        border-color: #ff7043;
     }
+
+    .login-container .btn.btn-primary:disabled {
+        background-color: #ff8c6a;
+    }
+
+    .input-group-append > .btn {
+        font-size: .875rem;
+    }
+
+    .login-tabs .nav-link {
+        color: #777;
+        font-size: 22px;  
+        padding: 0;
+        padding-bottom: 5px;
+        margin-right: 20px;
+        border-bottom: 4px solid transparent;      
+    }
+
+    .login-tabs  .nav-link.active {
+        color: #000;
+        border-color: #ff7043;
+    }
+
+    a {
+        color: #ff7043;
+    }
+    
 
 </style>

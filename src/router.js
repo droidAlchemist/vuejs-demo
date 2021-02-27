@@ -53,8 +53,8 @@ router.beforeEach((to, from, next) => {
   const logged_in = localStorage.getItem('logged_in') ;
   const is_admin = localStorage.getItem('is_admin') ;
 
-  console.log(logged_in);
-  console.log(is_admin);
+  // console.log(logged_in);
+  // console.log(is_admin);
 
   if (requiresAuth && logged_in == "1" && is_admin != "1") {
       next('/')

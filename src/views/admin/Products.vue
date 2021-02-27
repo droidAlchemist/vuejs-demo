@@ -105,7 +105,12 @@
 
                     <div class="form-group">
                       <label for="product_image">Product Image</label>
-                      <input type="file" @change="uploadImage" class="form-control">
+                      
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="validatedCustomFile" @change="uploadImage" required>
+                        <label class="custom-file-label" for="validatedCustomFile">Choose new file...</label>
+                        <div class="invalid-feedback">Invalid file selected!</div>
+                      </div>
                     </div>
 
                     <div class="form-group d-flex">
@@ -138,8 +143,11 @@
 </template>
 
 <script>
+
 import { VueEditor } from "vue2-editor";
 import { fb, db} from '../../firebase';
+import bsCustomFileInput from 'bs-custom-file-input'
+
 export default {
   name: "Products",
   components: {
@@ -186,6 +194,8 @@ export default {
       if(e.target.files[0]){
         
           let file = e.target.files[0];
+
+          console.log(file);
     
           var storageRef = fb.storage().ref('products/'+ Math.random() + '_'  + file.name);
     
@@ -231,6 +241,8 @@ export default {
     },
     editProduct(product){
       this.modal = 'edit';
+      $('#validatedCustomFile').val('');
+      $('.custom-file-label').text('');
       this.product = product;
       $('#product').modal('show');
     },
@@ -272,13 +284,17 @@ export default {
   
   },
   created(){
-  
+    $(document).ready(function () {
+      bsCustomFileInput.init()
+    })
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+
 .img-wrapp{
   position: relative;
 }

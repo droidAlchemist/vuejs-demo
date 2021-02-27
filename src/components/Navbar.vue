@@ -1,8 +1,8 @@
 <template>
-  <div class="hello">
-   <nav class="navbar custom-nav fixed-top navbar-expand-lg navbar-light bg-light">
+  
+   <nav class="navbar custom-nav fixed-top navbar-expand-lg navbar-light bg-light p-0">
      <div class="container">
-        <router-link class="navbar-brand" to="/">Vue Shop</router-link>
+        <router-link class="navbar-brand" to="/">Sinoy's Kitchen</router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,7 +15,7 @@
           <form class="form-inline my-2 my-lg-0">
             
 
-              <div v-if="logged_in == '1'" class="dropdown">
+              <div v-if="logged_in == '1'" class="dropdown my-nav-item">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" >
                   {{ name }}
                 </button>
@@ -37,7 +37,7 @@
 
 </nav>
     
-  </div>
+  
 </template>
 
 <script>
@@ -89,13 +89,45 @@ export default {
     font-size: 13px;
     letter-spacing: 1px;
     color: #313131;
-    
+    line-height: 80px;
     text-transform: uppercase;
     display: inline-block;
     position: relative;
     font-weight: bold;
     text-decoration: none;
 }
+
+.dropdown-item {
+  line-height: 2;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.my-nav-item:before {
+    content: "";
+    position: absolute;
+    bottom: 18px;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    left: 50%;
+    height: 2px;
+    width: 0;
+    background: #ff7043;
+}
+.my-nav-item:hover:before {
+    left: 0;
+    width: 100%;
+}
+.my-nav-item:hover {
+    color: #ff7043;
+}
+
+
+.my-nav-btn {
+  color: #000;
+}
+
 
 .my-nav-item:hover, .my-nav-btn:hover {
   color: #ff7043 !important;

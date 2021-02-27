@@ -40,21 +40,23 @@
                                     class="penci-heading-content entry-content"
                                   >
                                     <p>
-                                      Nemo enim ipsam voluptatem quia voluptas
-                                      sit aspernatur aut odit aut fugit, sed
-                                      quia consequuntur magni dolores eos qui
-                                      ratione voluptatem sequi nesciunt. Neq ue
-                                      porro quisquam est, qui dolorem ipsum quia
-                                      dolor sit amet.<br />
-                                      <br />
-                                      At vero eos et accusamus et iusto odio
-                                      dignissimos ducimus qui blanditiis
-                                      praesentium voluptatum deleniti atque
-                                      corrupti quos dolores et quas molestias
-                                      excepturi sint occaecati cupiditate non
-                                      provident, similique sunt in culpa qui
-                                      officia deserunt mollitia animi, id est
-                                      laborum et dolorum fuga, penci design.
+                                      Zomato, which started as Foodiebay, was established in July 2008 by two IIT Delhi alumnus, Deepinder Goyal, and Pankaj Chaddah. 
+                                      The idea struck Deepinder when his colleagues consistently had a demand for paper menu leaflets of different restaurants, to order food.
+                                      That's when he thought of converting these restaurant paper menus into a digital app, that is far more accessible and easier to use. 
+                                      <br/>
+                                      <br/>
+                                      The online food delivery space in India is dominated by two big players- Zomato and Swiggy. 
+                                      There are other players like Foodpanda, JustEat, TastyKhana and FoodMingo but the competition for the No 1 position is majorly confined between 
+                                      Zomato and Swiggy, backed by big global investors and a large user base.
+                                      <br/>
+                                      <br/>
+                                      The company, which had once decided not to expand its business, is aiming higher now. 
+                                      Zomato had to rather pay a dear cost for keeping things put as it saw newbie Swiggy punch 
+                                      holes in its dominance in the Indian food ordering space. In the firm's blog, co-founder Deepinder Goyal 
+                                      shared his larger-than-life future plan of making Zomato the biggest farm to table food company in the world.
+                                      <br/>
+                                      <br/>
+                                      Zomato is among the top start-ups in India and operates in about 23 countries including India, Australia, and the USA. In 2016, Zomato was valued at USD 1 billion.
                                     </p>
                                   </div>
                                 </div>
@@ -158,7 +160,13 @@ export default {
 
 <style>
 
+@font-face {
+  font-family: "Parisienne";
+  src: url(../fonts/Parisienne-Regular.ttf) format("truetype");
+}
+
 @import "../assets/home.scss";
+
 
 a:hover {
     text-decoration: none !important;

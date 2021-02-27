@@ -4,7 +4,7 @@
       <div class="section-title">
         <h2>Discover Producs</h2>
         <p>
-          Discover out products that match your unique tastes and diet preferences
+          Discover our products that match your unique tastes and diet preferences
         </p>
       </div>
 
@@ -20,7 +20,7 @@
 
         
             <div class="row">
-              <div class="col-md-4" v-for="(product, index) in products" :key="index">
+              <div class="col-md-4 mb-4" v-for="(product, index) in products" :key="index">
                 <div class="item text-center">
                   <div class="img">
                     <img :src="product.image" alt="" />
@@ -76,8 +76,14 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style >
 
 @import "../assets/product-list.scss";
+
+#recipes .img img {
+  width: 100%;
+  height: 263px;
+  vertical-align: top;
+}
 
 </style>
