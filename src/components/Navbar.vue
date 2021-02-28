@@ -1,6 +1,6 @@
 <template>
   
-   <nav class="navbar custom-nav fixed-top navbar-expand-lg navbar-light bg-light p-0">
+   <nav class="navbar shadow-sm custom-nav fixed-top navbar-expand-lg navbar-light bg-light p-0">
      <div class="container">
         <router-link class="navbar-brand" to="/">Sinoy's Kitchen</router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,9 +15,9 @@
           <form class="form-inline my-2 my-lg-0">
             
 
-              <div v-if="logged_in == '1'" class="dropdown my-nav-item">
+              <div v-if="this.$store.getters.getLoginStatus == '1'" class="dropdown my-nav-item">
                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" >
-                  {{ name }}
+                  {{ this.$store.getters.getName }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" @click="logout()" href="#">Logout</a>                  
@@ -46,34 +46,13 @@ export default {
   props: {
     msg: String
   },
-  data(){
-    return {
-        logged_in: localStorage.getItem('logged_in') || "0",
-        name: localStorage.getItem('username') || "",
-    }
-  },
+
   methods:{      
-      logout(){
-        localStorage.setItem('username', "");
-        localStorage.setItem('is_admin', "0");                      
-        localStorage.setItem('logged_in', "0");   
-        this.logged_in = "0";
-        this.name = "";
+      logout(){ 
+        this.$store.commit('removeUser');
         this.$router.replace('/');
       }
   },
-  // mounted() {
-  //   this.logged_in = Boolean(localStorage.getItem('logged_in'));      
-  //   this.name = localStorage.getItem('username');
-  //   console.log("navbar mounted");
-  // },
-  updated() {
-    this.logged_in = localStorage.getItem('logged_in');        
-    this.name = localStorage.getItem('username');
-    console.log("navbar updated");
-    console.log(this.logged_in);
-  },
-  components:{}
 };
 </script>
 
@@ -89,7 +68,7 @@ export default {
     font-size: 13px;
     letter-spacing: 1px;
     color: #313131;
-    line-height: 80px;
+    line-height: 65px;
     text-transform: uppercase;
     display: inline-block;
     position: relative;
@@ -106,7 +85,7 @@ export default {
 .my-nav-item:before {
     content: "";
     position: absolute;
-    bottom: 18px;
+    bottom: 14px;
     transition: all 0.2s;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
@@ -132,6 +111,22 @@ export default {
 .my-nav-item:hover, .my-nav-btn:hover {
   color: #ff7043 !important;
 }
+
+
+.dropdown:hover .dropdown-menu, 
+.btn-group:hover .dropdown-menu { 
+    display: block; 
+} 
+.dropdown-menu { 
+    margin: auto; 
+} 
+.dropdown-toggle { 
+    margin: auto; 
+} 
+.navbar .dropdown-toggle, 
+.nav-tabs .dropdown-toggle { 
+    margin: auto; 
+} 
 
   @media (min-width: 992px) { 
     

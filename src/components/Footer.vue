@@ -4,7 +4,7 @@
       <div class="footer-logo-copyright footer-not-logo footer-not-gotop">
         <div id="footer-copyright">
           <p>
-            @2021 - All Right Reserved. Designed and Developed by
+            All Rights Reserved © 2021. Designed and Developed by
             <a
               ref="nofollow"
               href="https://www.vevolvesoftware.com/"

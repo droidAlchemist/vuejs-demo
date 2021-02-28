@@ -12,8 +12,8 @@
                 </button>
               </div>
               <div class="modal-body">
-                  <ul>
-                    <li v-for="item in this.$store.state.cart" class="media mb-4">
+                  <ul v-if="this.$store.getters.totalPrice > 0">
+                    <li v-for="(item, index) in this.$store.state.cart" class="media mb-4" :key="index">
                       <img :src="item.productImage" width="80px" class="align-self-center mr-3" alt="">
                       <div class="media-body">
                         <h5 class="mt-1">{{item.productName}}
@@ -24,12 +24,15 @@
                         <p class="m-0">Quantity : {{item.productQuantity }}</p>
                       </div>
                     </li>
-
                   </ul>
+                  <ul v-else>
+                    <li><p class="p-1">Your cart is empty!</p></li>
+                  </ul>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
-                <button type="button" class="btn btn-primary" @click="checkout">Checkout</button>
+                <button v-if="this.$store.getters.totalPrice > 0" type="button" class="btn btn-checkout" @click="checkout">Checkout</button>
               </div>
             </div>
           </div>
@@ -61,6 +64,11 @@ export default {
 
 .close-btn {
   cursor: pointer;
+}
+
+.btn-checkout {
+  background-color: #ff7043;
+  color: #fff;
 }
 
 </style>

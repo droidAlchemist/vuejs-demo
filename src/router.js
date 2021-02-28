@@ -7,6 +7,7 @@ import Products from "./views/ViewProducts.vue";
 import Admin from "./views/admin/Admin.vue";
 import AdminProducts from "./views/admin/Products.vue";
 
+import store from "./store.js";
 
 Vue.use(Router);
 
@@ -50,13 +51,10 @@ const router =  new Router({
 router.beforeEach((to, from, next) => {
 
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
-  const logged_in = localStorage.getItem('logged_in') ;
-  const is_admin = localStorage.getItem('is_admin') ;
+  const logged_in = store.getters.getLoginStatus;
+  const is_admin = store.getters.getAdminStatus;
 
-  // console.log(logged_in);
-  // console.log(is_admin);
-
-  if (requiresAuth && logged_in == "1" && is_admin != "1") {
+  if (requiresAuth && is_admin != "1" && (logged_in == "1" || logged_in != "1") ) {
       next('/')
   } else if (requiresAuth && logged_in == "1" && is_admin == "1") {
       next()

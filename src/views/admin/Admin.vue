@@ -104,17 +104,9 @@ export default {
         $(".page-wrapper").toggleClass("toggled");
       },
       logout(){
-        localStorage.removeItem('username');
-        localStorage.removeItem('is_admin');                      
-        localStorage.setItem('logged_in', false);  
+        this.$store.commit('removeUser');
         this.$router.replace('/');
       }
-  },
-
-  created(){
-      
-      
-
   }
 };
 </script>

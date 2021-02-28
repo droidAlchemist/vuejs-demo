@@ -131,7 +131,7 @@ export default {
             'size': 'invisible',
             'callback': () => {
                 // reCAPTCHA solved, allow signInWithPhoneNumber.
-                console.log("captcha solved");
+                // console.log("captcha solved");
                 self.onSignInSubmit();
             }
         });
@@ -139,7 +139,7 @@ export default {
 
         window.recaptchaVerifier.render().then((widgetId) => {
             window.recaptchaWidgetId = widgetId;
-            console.log(widgetId);
+            // console.log(widgetId);
             // self.updateSignInButtonUI();
         });
     },
@@ -192,6 +192,12 @@ export default {
         window.verifyingCode = false;
         this.updateSignInButtonUI();
         this.updateVerifyCodeButtonUI();
+
+        Toast.fire({
+            type: 'error',
+            position: 'center',
+            title: 'OTP did not match! Try again!'
+        });
       });
     }
   },
@@ -215,7 +221,7 @@ export default {
         phoneNumber = phoneNumber.replace('+91','');
         this.mobile = phoneNumber;
         isValid = phoneNumber.search(pattern) !== -1;
-        console.log(isValid);
+        // console.log(isValid);
     } else {
         form.checkValidity();
         form.classList.add('was-validated');
@@ -241,7 +247,7 @@ export default {
   },
       login(){
           if (this.mobile == "admin") {
-              if (this.password == "admin") {
+              if (this.password == "admin@12345") {
                 $('#login').modal('hide')                
                 // console.log("admin login..");
 
@@ -352,9 +358,12 @@ export default {
       },
 
       set_storage(name, admin_status, login_status) {        
-        localStorage.setItem('username', name);
-        localStorage.setItem('is_admin', admin_status);                      
-        localStorage.setItem('logged_in', login_status); 
+        let user = {
+            "username": name,
+            "is_admin": admin_status,
+            "logged_in": login_status
+        }
+        this.$store.commit('addUser', user);
       }
 
   }

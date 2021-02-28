@@ -8,28 +8,33 @@
             <div class="row">
 
                 <div class="col-md-6">                    
-                     <ul>
-                        <li v-for="item in this.$store.state.cart" class="media mb-4">
-                          <img :src="item.productImage" width="80px" class="align-self-center mr-3" alt="">
+                  <ul v-if="this.$store.getters.totalPrice > 0">
+                    <li v-for="(item, index) in this.$store.state.cart" class="media mb-4" :key="index">
+                      <img :src="item.productImage" width="80px" class="align-self-center mr-3" alt="">
 
-                          <div class="media-body">
-                              <h5 class="mt-1">{{item.productName}}
+                      <div class="media-body">
+                          <h5 class="mt-1">{{item.productName}}
 
-                                  <span class='float-right close-btn' @click="$store.commit('removeFromCart',item)"><i class="fa fa-trash mb-1 text-danger"></i></span>
+                              <span class='float-right close-btn' @click="$store.commit('removeFromCart',item)"><i class="fa fa-trash mb-1 text-danger"></i></span>
 
-                              </h5>
-                              <p class="m-0">₹ {{item.productPrice }}</p>
-                              <p class="m-0">Quantity : {{item.productQuantity }}</p>
-                          </div>
-                        </li>
+                          </h5>
+                          <p class="m-0">₹ {{item.productPrice }}</p>
+                          <p class="m-0">Quantity : {{item.productQuantity }}</p>
+                      </div>
+                    </li>
 
-                    </ul>
+                  </ul>
+
+                  <ul v-else>
+                    <li><p class="p-1">Your cart is empty!</p></li>
+                  </ul>
+
                 </div>
               </div>
 
               <hr>
 
-              <div class="row">
+              <div v-if="this.$store.getters.totalPrice > 0" class="row">
                 <div class="col-md-4">
                   <h3>Total</h3>
                   <p class="mt-3 price-total">
@@ -39,9 +44,11 @@
                 </div>
             </div>
 
-          <hr/>
+          <div v-if="this.$store.getters.totalPrice > 0">
+            <hr/>
 
-          <button class="checkout-button mt-3">Proceed</button>
+            <button class="checkout-button mt-3">Proceed</button>
+          </div>
             
 
         </div>
@@ -87,10 +94,8 @@ export default {
   background: #313131;
   color: #fff;
   transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
   }
 

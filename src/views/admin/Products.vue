@@ -111,6 +111,10 @@
                         <label class="custom-file-label" for="validatedCustomFile">Choose new file...</label>
                         <div class="invalid-feedback">Invalid file selected!</div>
                       </div>
+
+                      <div v-if="progressbarVisible" class="progress mt-3">
+                        <div class="progress-bar bg-warning" role="progressbar" v-bind:style="{ width: progressbar + '%' }"  aria-valuemin="0" aria-valuemax="100">{{progressbar}}%</div>
+                      </div>
                     </div>
 
                     <div class="form-group d-flex">
@@ -158,20 +162,22 @@ export default {
   },
   data(){
     return {
-        products: [],
-        product: {
-          name:null,
-          description:null,
-          price:null,
-          image: null
-        },
-        activeItem:null,
-        modal: null,
-        tag: null,
+      products: [],
+      product: {
+        name:null,
+        description:null,
+        price:null,
+        image: null
+      },
+      activeItem:null,
+      modal: null,
+      tag: null,
 
-        editorSettings: {
-          disabled: true
-      }
+      editorSettings: {
+        disabled: true
+      },
+      progressbar: 0,
+      progressbarVisible: false,
     }
   },
   firestore(){
@@ -202,15 +208,24 @@ export default {
           let uploadTask  = storageRef.put(file);
     
           uploadTask.on('state_changed', (snapshot) => {
-            console.log(snapshot);
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+
+            this.progressbar = progress;
+            this.progressbarVisible = true;
 
           }, (error) => {
             // Handle unsuccessful uploads
             console.log(error);
+            this.progressbarVisible = false;
+            Toast.fire({
+              type: 'error',
+              title: 'File could not be uploaded!'
+            })
           }, () => {
             // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            
+            this.progressbarVisible = false;
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
               console.log(downloadURL);
               this.product.image = downloadURL;
@@ -225,6 +240,8 @@ export default {
           price:null,
           image: null
       }
+      $('#validatedCustomFile').val('');
+      $('.custom-file-label').text('');
     },
     addNew(){
         this.modal = 'new';
@@ -241,8 +258,7 @@ export default {
     },
     editProduct(product){
       this.modal = 'edit';
-      $('#validatedCustomFile').val('');
-      $('.custom-file-label').text('');
+      this.reset();
       this.product = product;
       $('#product').modal('show');
     },
